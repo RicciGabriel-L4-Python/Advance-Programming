@@ -1,0 +1,31 @@
+import tkinter as tk
+import random
+
+# Function to display a joke
+def display_joke():
+    if entry.get().strip().lower() == "alexa tell me a joke":
+        try:
+            with open("Jokes.txt", "r") as file:
+                jokes = file.readlines()
+                joke_label.config(text=random.choice(jokes).strip() if jokes else "No jokes available.")
+        except FileNotFoundError:
+            joke_label.config(text="Jokes file not found.")
+    else:
+        joke_label.config(text="Please enter the correct phrase.")
+
+# Tkinter window setup
+root = tk.Tk()
+root.title("Alexa, Tell Me A Joke")
+root.geometry("500x250")
+
+tk.Label(root, text="Please enter 'Alexa tell me a joke'", font=("Arial", 14)).pack(pady=10)
+entry = tk.Entry(root, font=("Arial", 12), width=30)
+entry.pack(pady=10)
+entry.focus()
+
+tk.Button(root, text="Tell a Joke", command=display_joke, font=("Arial", 12)).pack(pady=10)
+joke_label = tk.Label(root, text="", font=("Arial", 12), wraplength=400, justify="left")
+joke_label.pack(pady=10)
+
+# Run the Tkinter application
+root.mainloop()
